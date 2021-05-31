@@ -1,12 +1,13 @@
 const faker = require ('faker')
+const dataGenerator = require ('./dataGenerator.js')
+const renderer = require ('./renderer.js')
 
-const names = new Array(50).fill('').map( _ => faker.company.companyName())
-const companies = names.map( name => {
-    const products = new Array(3). fill('').map( _ => faker.commerce.productName())
-    return {
-        name,
-        products
-    }
+const companies = dataGenerator.generateCompanies()
+const companyList = document.querySelector('#company-list')
+
+renderer.render((window.location.hash).slice(1)*1, companies, companyList)
+
+window.addEventListener('hashchange', () => {
+    const selected = (window.location.hash).slice(1)*1
+    renderer.render (selected, companies, companyList)
 })
-console.log(companies)
-console.log('hello world')
